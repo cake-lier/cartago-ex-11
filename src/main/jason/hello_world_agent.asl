@@ -2,16 +2,15 @@
 
 +!hello : true <-
     println("Hello world!");
-    makeArtifact("counter", "CounterArtifact", [0], CounterId);
-    focus(CounterId);
-    increment.
-
-+count(N) : N < 3 <-
-    println("The count is now at: ", N, ".");
-    increment.
-
-+count(3) : true <-
-    println("The count is now at 3, shutting down.").
+    linkWorkspace("http://localhost:20100/mas/main", "w0");
+    println("A");
+    joinWorkspace("w0", WspId);
+    println("B");
+    createWorkspace("w1");
+    println("C");
+    quitWorkspace(WspId);
+    println("D");
+    linkWorkspace("http://localhost:20100/mas/main/w1", "w2");
+    println("E").
 
 { include("$jacamoJar/templates/common-cartago.asl") }
-{ include("$jacamoJar/templates/common-moise.asl") }

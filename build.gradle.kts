@@ -1,6 +1,9 @@
+import com.bmuschko.gradle.docker.tasks.image.*
+
 plugins {
     java
     application
+    id("com.bmuschko.docker-remote-api") version "9.3.4"
 }
 
 java {
@@ -58,6 +61,14 @@ sourceSets {
 }
 
 tasks {
+    val pullImage = create<DockerPullImage>("pullCartagoImage") {
+        image = "matteocastellucci3/cartago:latest"
+    }
+    create<Exec>("startCartagoNode") {
+        description = "Runs the CArtAgO node to be used as a remote node"
+        dependsOn(pullImage)
+        commandLine = mutableListOf("docker", "run", "-p", "20100:20100", "matteocastellucci3/cartago:latest")
+    }
     getByName<JavaExec>("run") {
         description = "Runs the JaCaMo application"
         dependsOn("classes")
